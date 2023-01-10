@@ -5,5 +5,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface UrlRepository extends MongoRepository<Url, String> {
 
-//    Url findByAccessUrl(String accessUrl);
+    Url findByUrlAccess(String urlAccess);
+
+    Url findByUrlOrigin(String urlOrigin);
 }

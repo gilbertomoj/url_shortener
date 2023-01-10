@@ -3,8 +3,10 @@ package com.challenge.url_shortener.service;
 import com.challenge.url_shortener.model.Url;
 import com.challenge.url_shortener.repository.UrlRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -15,9 +17,15 @@ public class UrlService {
     @Autowired
     private UrlRepository repository;
 
-    public Url addUrl(Url url){
+    public String addUrl(Url url){
         // Vai gerar o código de acesso da URL
 
+        // Verificar se já existe/foi criado um registro com a Url (A completar) !
+        Url foundUrl = repository.findByUrlOrigin(url.getUrlOrigin());
+        System.out.println(url.getUrlAccess());
+        System.out.println(foundUrl);
+
+        // Gerar um método com retorno apenas do código !!
         String code = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVYWXZ1234567890";
         Random random = new Random();
         String codeAccessGenerator = "";
@@ -28,8 +36,7 @@ public class UrlService {
         }
         url.setUrlId(UUID.randomUUID().toString().split("-")[0]);
         url.setUrlAccess(codeAccessGenerator);
-
-        return repository.save(url);
+        return "Url criado";
     }
 
     public List<Url> findAllUrls(){
@@ -40,9 +47,20 @@ public class UrlService {
         return repository.findById(urlId).get();
     }
 
-//    public Url getByAccessUrl(String accessUrl){
-//        return repository.findByAccessUrl(accessUrl);
-//    }
+    public Url getByUrlAccess(String urlAccess) {
+        Date date = new Date();
+        Url urlObj = repository.findByUrlAccess(urlAccess);
+
+        urlObj.setLastAccess(date);
+        urlObj.setNumAccess(urlObj.getNumAccess() + 1);
+        repository.save(urlObj);
+        return urlObj;
+    }
+
+    public List<Url> getUrlsByNumAccess(){
+        List<Url> urls = repository.findAll(Sort.by(Sort.Direction.DESC, "numAccess"));
+        return urls;
+    }
 
     public Url updateUrl(Url urlRequest){
         Url existingUrl = repository.findById(urlRequest.getUrlId()).get();
