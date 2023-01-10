@@ -3,11 +3,11 @@ package com.challenge.url_shortener.service;
 import com.challenge.url_shortener.model.Url;
 import com.challenge.url_shortener.repository.UrlRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -16,8 +16,19 @@ public class UrlService {
     private UrlRepository repository;
 
     public Url addUrl(Url url){
+        // Vai gerar o código de acesso da URL
+
+        String code = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVYWXZ1234567890";
+        Random random = new Random();
+        String codeAccessGenerator = "";
+        int index = -1;
+        for( int i = 0; i < 9; i++ ) {
+            index = random.nextInt( code.length() );
+            codeAccessGenerator += code.substring( index, index + 1 );
+        }
         url.setUrlId(UUID.randomUUID().toString().split("-")[0]);
-        // Colocar o código de hash aqui !!!
+        url.setUrlAccess(codeAccessGenerator);
+
         return repository.save(url);
     }
 
@@ -29,9 +40,9 @@ public class UrlService {
         return repository.findById(urlId).get();
     }
 
-    public Url getByAccessUrl(String accessUrl){
-        return repository.findByAccessUrl(accessUrl);
-    }
+//    public Url getByAccessUrl(String accessUrl){
+//        return repository.findByAccessUrl(accessUrl);
+//    }
 
     public Url updateUrl(Url urlRequest){
         Url existingUrl = repository.findById(urlRequest.getUrlId()).get();
