@@ -2,14 +2,11 @@ package com.challenge.url_shortener.controller;
 
 import com.challenge.url_shortener.model.Url;
 import com.challenge.url_shortener.service.UrlService;
-import jakarta.websocket.OnError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -24,7 +21,10 @@ public class UrlController {
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
     public String createUrl(@RequestBody Url url){
-        return service.addUrl(url);
+        // No create -> verificação caso já exista uma Url origin
+        Url createdUrl = service.addUrl(url);
+
+        return "Url criada com sucesso, link de acesso : http://localhost:8080/url/short/"+createdUrl.getUrlAccess();
     }
 
     @GetMapping("/list")
@@ -64,5 +64,23 @@ public class UrlController {
         }
 
         return returnStatistics;
+    }
+
+    @GetMapping("/get/{urlId}")
+    @ResponseStatus(HttpStatus.OK)
+    public Url findById(@PathVariable String urlId){
+        return service.getUrlById(urlId);
+    }
+
+    @PutMapping("/update")
+    @ResponseStatus(HttpStatus.OK)
+    public Url updateUrl(@RequestBody Url url){
+        return service.updateUrl(url);
+    }
+
+    @DeleteMapping("/delete/{urlId}")
+    @ResponseStatus(HttpStatus.OK)
+    public String deleteUrl(@PathVariable String urlId){
+        return service.deleteUrl(urlId);
     }
 }

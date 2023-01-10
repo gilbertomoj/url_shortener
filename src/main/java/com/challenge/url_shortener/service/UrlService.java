@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -17,7 +16,7 @@ public class UrlService {
     @Autowired
     private UrlRepository repository;
 
-    public String addUrl(Url url){
+    public Url addUrl(Url url){
         // Vai gerar o código de acesso da URL
 
         // Verificar se já existe/foi criado um registro com a Url (A completar) !
@@ -26,17 +25,12 @@ public class UrlService {
         System.out.println(foundUrl);
 
         // Gerar um método com retorno apenas do código !!
-        String code = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVYWXZ1234567890";
-        Random random = new Random();
-        String codeAccessGenerator = "";
-        int index = -1;
-        for( int i = 0; i < 9; i++ ) {
-            index = random.nextInt( code.length() );
-            codeAccessGenerator += code.substring( index, index + 1 );
-        }
+        String codeAccessGenerator = this.codeGenerator();
+
         url.setUrlId(UUID.randomUUID().toString().split("-")[0]);
         url.setUrlAccess(codeAccessGenerator);
-        return "Url criado";
+        repository.save(url);
+        return url;
     }
 
     public List<Url> findAllUrls(){
@@ -69,17 +63,31 @@ public class UrlService {
         return repository.save(existingUrl);
     }
 
-    public String updateLastAccess(String urlId, Date currentDate){
-        Url existingUrl = repository.findById(urlId).get();
-        existingUrl.setLastAccess(currentDate);
-        repository.save(existingUrl);
-        return "Ultimo acesso registrado";
-    }
 
     public String deleteUrl(String urlId){
         repository.deleteById(urlId);
         return "A url foi deletada com sucesso";
     }
-
+    public Boolean findUrlByUrlOrigin(String urlOrigin){
+        Url foundUrl = repository.findByUrlOrigin(urlOrigin);
+        if(foundUrl == null){
+            // Se não existir um registro com essa url, cria-se uma nova
+            return Boolean.TRUE;
+        }else{
+            // Se existir retornar como false
+            return Boolean.FALSE;
+        }
+    }
+    public String codeGenerator(){
+        String code = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVYWXZ1234567890";
+        Random random = new Random();
+        String codeAccessGenerator = "";
+        int index = -1;
+        for( int i = 0; i < 9; i++ ) {
+            index = random.nextInt( code.length() );
+            codeAccessGenerator += code.substring( index, index + 1 );
+        }
+        return codeAccessGenerator;
+    }
 
 }
