@@ -16,7 +16,13 @@ import java.util.List;
 @RequestMapping("/url")
 public class UrlController {
     @Autowired
-    private UrlService service;
+    public UrlService service;
+
+    @GetMapping()
+    @ResponseStatus()
+    public String hello(){
+        return "Olá";
+    }
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
