@@ -30,7 +30,7 @@ public class UrlController {
         // No create -> verificação caso já exista uma Url origin
         Url createdUrl = service.addUrl(url);
 
-        return "Url criada com sucesso, link de acesso : http://localhost:8080/url/short/"+createdUrl.getUrlAccess();
+        return "Url criada com sucesso, link de acessosss : localhost:8080/url/short/"+createdUrl.getUrlAccess();
     }
 
     @GetMapping("/list")
@@ -66,7 +66,7 @@ public class UrlController {
         returnStatistics += "Total de acessos à API : " + numOfAccess + "\n----------------\n";
 
         for(int i = 0; i < urls.size(); i++){
-            returnStatistics += "Url: "+ urls.get(i).getUrlAccess() +"\nNúmero de acessos : "+ urls.get(i).getNumAccess() +"\n% de acessos : "+ (urls.get(i).getNumAccess() * 100) / numOfAccess + "% \n\n";
+            returnStatistics += "Url: http://localhost/url/short/"+ urls.get(i).getUrlAccess() +"\nNúmero de acessos : "+ urls.get(i).getNumAccess() +"\n% de acessos : "+ (urls.get(i).getNumAccess() * 100) / numOfAccess + "% \n\n";
         }
 
         return returnStatistics;
