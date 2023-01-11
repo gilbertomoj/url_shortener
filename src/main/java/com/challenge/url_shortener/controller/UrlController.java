@@ -19,9 +19,28 @@ public class UrlController {
     public UrlService service;
 
     @GetMapping()
-    @ResponseStatus()
+    @ResponseStatus(HttpStatus.OK)
     public String hello(){
-        return "Olá";
+        String initialMessage = "" +
+                "### Acesso à url com link encurtado\n" +
+                "GET http://localhost:8080/url/short/{urlCodeAccess}\n\n" +
+                "### Criação de Urls\n" +
+                "POST http://localhost:8080/url/create\n\n" +
+                "### Listagem de todas as Urls\n" +
+                "GET http://localhost:8080/url/list\n\n" +
+                "### Listagem das Urls por numero de acesso\n" +
+                "GET http://localhost:8080/url/listBy/accessNumber\n\n" +
+                "### Acesso às estatisticas da API\n" +
+                "GET http://localhost:8080/url/statistics\n\n" +
+                "### Acesso aos detalhes de uma Url\n" +
+                "GET http://localhost:8080/url/get/{{urlId}}\n\n"+
+                "### Atualização de uma Url\n" +
+                "PUT http://localhost:8080/url/update\n\n" +
+                "### Delete de uma Url\n" +
+                "DELETE http://localhost:8080/url/delete/{{urlId}}" +
+                "";
+
+        return initialMessage;
     }
 
     @PostMapping("/create")
