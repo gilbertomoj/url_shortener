@@ -19,10 +19,10 @@ public class UrlService {
     public Url addUrl(Url url){
         // Vai gerar o código de acesso da URL
 
-        // Verificar se já existe/foi criado um registro com a Url (A completar) !
-        Url foundUrl = repository.findByUrlOrigin(url.getUrlOrigin());
-        System.out.println(url.getUrlAccess());
-        System.out.println(foundUrl);
+//        // Verificar se já existe/foi criado um registro com a Url (A completar) !
+//        Url foundUrl = repository.findByUrlOrigin(url.getUrlOrigin());
+//        System.out.println(url.getUrlAccess());
+//        System.out.println(foundUrl);
 
         // Gerar um método com retorno apenas do código !!
         String codeAccessGenerator = this.codeGenerator();

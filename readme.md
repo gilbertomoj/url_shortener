@@ -32,6 +32,7 @@ GET http://localhost:8080/url/list [lista todas as urls]
 ]
 ```
 GET http://localhost:8080/url/short/{codeAccess} [acessa uma url pelo código e redireciona para o link original]
+
 GET http://localhost:8080/url/statistics [acessa o endpoint de estatisticas, com o total de acessos, e a porcentagem de acesso de cada link]
 ```
 // Exemplo de retorno
