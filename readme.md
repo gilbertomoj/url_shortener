@@ -1,4 +1,4 @@
-# Desafio TDS
+# Desafio
 Desafio composto pela criação de um micro serviço com uma API para encurtamento de URLs seguindo o padrão REST
 
 ### Executando a aplicação
