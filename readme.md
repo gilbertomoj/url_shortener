@@ -1,5 +1,5 @@
-# Desafio
-Desafio composto pela criação de um micro serviço com uma API para encurtamento de URLs seguindo o padrão REST
+# Encurtador de Urls
+O projeto tem como objetivo a criação de uma API para encurtamento de URLs seguindo o padrão REST
 
 ### Executando a aplicação
 Certifique-se de ter o Maven instalado e adicionado ao PATH de seu sistema operacional, assim como o Git.
